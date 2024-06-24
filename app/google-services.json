@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "75908287260",
+    "project_id": "recipe-apps-81ff8",
+    "storage_bucket": "recipe-apps-81ff8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:75908287260:android:d388c860e8cbc12d9548d9",
+        "android_client_info": {
+          "package_name": "com.halil.recipeapps"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlu120OIZ5_aE6uAWzeL8uoJBsGZ4KNZg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
