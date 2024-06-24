@@ -17,11 +17,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -29,9 +27,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.halil.recipeapps.ui.component.BottomNavigationBar
 import com.halil.recipeapps.ui.component.NavigationDrawerContent
 import com.halil.recipeapps.ui.view.HomeScreen
-import com.halil.recipeapps.ui.view.LoginScreen
 import com.halil.recipeapps.ui.view.RecipesScreen
-import com.halil.recipeapps.ui.view.RegisterScreen
 import com.halil.recipeapps.ui.view.SplashScreen
 import com.halil.recipeapps.ui.view.TodoListScreen
 import com.halil.recipeapps.ui.viewmodel.LoginViewModel
@@ -44,10 +40,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val userViewModel: UserViewModel by viewModels()
+        val loginViewModel: LoginViewModel by viewModels()
 
         userViewModel.fetchUserData(FirebaseAuth.getInstance().currentUser?.uid ?: "")
 
         setContent {
+
             MainNavigation()
         }
     }
@@ -97,7 +95,7 @@ class MainActivity : ComponentActivity() {
                         HomeScreen(navController = navController, userViewModel = userViewModel)
                     }
                     composable("recipes") {
-                        RecipesScreen(navController = navController, userViewModel = userViewModel)
+                        RecipesScreen()
                     }
                     composable("todolist") {
                         TodoListScreen(navController = navController, userViewModel = userViewModel)

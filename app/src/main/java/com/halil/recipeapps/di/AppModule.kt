@@ -2,7 +2,6 @@ package com.halil.recipeapps.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-
 import com.halil.recipeapps.data.repository.AuthRepository
 import com.halil.recipeapps.data.repository.UserRepository
 import dagger.Module
