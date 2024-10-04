@@ -1,11 +1,9 @@
-package com.halil.recipeapps.ui.view
+package com.halil.recipeapps.ui.view.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
-import com.halil.recipeapps.ui.viewmodel.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

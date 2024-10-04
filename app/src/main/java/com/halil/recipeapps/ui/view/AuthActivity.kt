@@ -1,4 +1,4 @@
-package com.halil.recipeapps
+package com.halil.recipeapps.ui.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,8 +9,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.halil.recipeapps.ui.view.LoginScreen
-import com.halil.recipeapps.ui.view.RegisterScreen
+import com.halil.recipeapps.ui.view.screens.LoginScreen
+import com.halil.recipeapps.ui.view.screens.RegisterScreen
 import com.halil.recipeapps.ui.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

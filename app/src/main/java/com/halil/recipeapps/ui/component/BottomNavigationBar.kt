@@ -8,6 +8,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
+
 data class BottomNavItem(val label: String, val icon: ImageVector, val route: String)
 
 val bottomNavItems = listOf(

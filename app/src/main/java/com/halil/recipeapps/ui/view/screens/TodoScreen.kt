@@ -1,4 +1,4 @@
-package com.halil.recipeapps.ui.view
+package com.halil.recipeapps.ui.view.screens
 
 
 import androidx.compose.foundation.layout.Column
@@ -18,7 +18,6 @@ fun TodoListScreen(navController: NavHostController, userViewModel: UserViewMode
                 modifier = Modifier.padding(padding)
             ) {
                 Text(text = "Todo List Screen", style = MaterialTheme.typography.headlineMedium)
-                // Yapılacaklar listesi ile ilgili içerik buraya eklenecek
             }
         }
     )

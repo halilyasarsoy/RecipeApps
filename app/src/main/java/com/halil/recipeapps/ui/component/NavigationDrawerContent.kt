@@ -28,7 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.halil.recipeapps.AuthActivity
+import com.halil.recipeapps.ui.view.AuthActivity
 import com.halil.recipeapps.data.model.User
 import com.halil.recipeapps.ui.viewmodel.LoginViewModel
 import com.halil.recipeapps.ui.viewmodel.UserViewModel

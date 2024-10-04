@@ -32,7 +32,9 @@ class LoginViewModel @Inject constructor(
     val user: StateFlow<User?> = _user.asStateFlow()
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-
+    fun isUserLoggedIn(): Boolean {
+        return auth.currentUser != null
+    }
     fun login(email: String, password: String) {
         viewModelScope.launch {
             _loginState.value = Resource.Loading()
@@ -62,7 +64,7 @@ class LoginViewModel @Inject constructor(
     fun logout() {
         viewModelScope.launch {
             repository.logout()
-            _logoutStatus.value = true  // Çıkış yapıldığını bildir
+            _logoutStatus.value = true
         }
     }
 }

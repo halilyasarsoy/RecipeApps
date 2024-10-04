@@ -1,4 +1,4 @@
-package com.halil.recipeapps
+package com.halil.recipeapps.ui.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -26,10 +26,10 @@ import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.halil.recipeapps.ui.component.BottomNavigationBar
 import com.halil.recipeapps.ui.component.NavigationDrawerContent
-import com.halil.recipeapps.ui.view.HomeScreen
-import com.halil.recipeapps.ui.view.RecipesScreen
-import com.halil.recipeapps.ui.view.SplashScreen
-import com.halil.recipeapps.ui.view.TodoListScreen
+import com.halil.recipeapps.ui.view.screens.HomeScreen
+import com.halil.recipeapps.ui.view.screens.RecipeDetailScreen
+import com.halil.recipeapps.ui.view.screens.RecipesScreen
+import com.halil.recipeapps.ui.view.screens.TodoListScreen
 import com.halil.recipeapps.ui.viewmodel.LoginViewModel
 import com.halil.recipeapps.ui.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,7 +40,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val userViewModel: UserViewModel by viewModels()
-        val loginViewModel: LoginViewModel by viewModels()
 
         userViewModel.fetchUserData(FirebaseAuth.getInstance().currentUser?.uid ?: "")
 
@@ -99,6 +98,11 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("todolist") {
                         TodoListScreen(navController = navController, userViewModel = userViewModel)
+                    }
+                    composable("recipeDetail/{recipeId}") { backStackEntry ->
+                        val recipeId = backStackEntry.arguments?.getString("recipeId")?.toIntOrNull()
+                        val recipe = userViewModel.recipes.value?.data?.find { it.id == recipeId }
+                        RecipeDetailScreen(recipe = recipe)
                     }
                 }
             }
