@@ -23,7 +23,7 @@ fun RecipeDetailScreen(recipe: Recipe?) {
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            Text(text = it.name, style = MaterialTheme.typography.titleLarge) // titleLarge kullanılıyor
+            Text(text = it.name, style = MaterialTheme.typography.titleLarge)
             Image(
                 painter = rememberAsyncImagePainter(it.image_url),
                 contentDescription = it.name,
@@ -32,13 +32,13 @@ fun RecipeDetailScreen(recipe: Recipe?) {
                     .fillMaxWidth(),
                 contentScale = ContentScale.Crop
             )
-            Text(text = "Ingredients: ${it.ingredients}", style = MaterialTheme.typography.bodyMedium) // bodyMedium kullanılıyor
+            Text(text = "Ingredients: ${it.ingredients}", style = MaterialTheme.typography.bodyMedium)
             Text(text = "Instructions: ${it.instructions}", style = MaterialTheme.typography.bodyMedium)
             Text(text = "Protein: ${it.protein}g", style = MaterialTheme.typography.bodyMedium)
             Text(text = "Calories: ${it.kcal}kcal", style = MaterialTheme.typography.bodyMedium)
             Text(text = "Fat: ${it.fat}g", style = MaterialTheme.typography.bodyMedium)
         }
     } ?: run {
-        Text(text = "Recipe not found", color = MaterialTheme.colorScheme.error) // MaterialTheme.colorScheme.error kullanılıyor
+        Text(text = "Recipe not found", color = MaterialTheme.colorScheme.error)
     }
 }

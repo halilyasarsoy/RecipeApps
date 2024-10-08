@@ -1,13 +1,11 @@
 package com.halil.recipeapps.ui.view.screens
 
 import android.util.Log
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
@@ -22,8 +20,7 @@ fun HomeScreen(navController: NavHostController, userViewModel: UserViewModel) {
     val recipeState by userViewModel.recipes.collectAsState()
 
     LaunchedEffect(Unit) {
-        Log.d("HomeScreen", "LaunchedEffect called")
-        userViewModel.fetchRecipes()  // Bu, verilerin UI'ya doğru yansımasını sağlar
+        userViewModel.fetchRecipes()
     }
 
     Scaffold(
@@ -31,34 +28,27 @@ fun HomeScreen(navController: NavHostController, userViewModel: UserViewModel) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(padding),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top
+                    .padding(padding)
             ) {
                 when (recipeState) {
                     is Resource.Loading -> {
-                        Log.d("HomeScreen", "Loading state")
                         CircularProgressIndicator()
                     }
                     is Resource.Success -> {
                         val recipes = (recipeState as Resource.Success<List<Recipe>>).data
                         Log.d("HomeScreen", "Recipes received in UI: $recipes")
-                        if (recipes != null) {
-                            RecipeList(recipes = recipes) { selectedRecipe ->
-                                navController.navigate("recipeDetail/${selectedRecipe.id}")
+                        if (!recipes.isNullOrEmpty()) {
+                            RecipeList(recipes = recipes, userViewModel = userViewModel) { recipe ->
+                                navController.navigate("recipeDetail/${recipe.id}")
                             }
+                        } else {
+                            Text(text = "No recipes found.")
                         }
                     }
                     is Resource.Error -> {
-                        Log.d("HomeScreen", "Error state: ${(recipeState as Resource.Error).message}")
-                        Text(
-                            text = "Error: ${(recipeState as Resource.Error).message}",
-                            color = Color.Red
-                        )
+                        Text(text = "Error: ${(recipeState as Resource.Error).message}", color = Color.Red)
                     }
-                    else -> {
-                        Log.d("HomeScreen", "Unknown state")
-                    }
+                    else -> {}
                 }
             }
         }

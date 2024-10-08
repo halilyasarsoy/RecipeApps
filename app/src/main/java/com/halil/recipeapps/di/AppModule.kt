@@ -1,7 +1,13 @@
 package com.halil.recipeapps.di
 
+import android.app.Application
+import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.halil.recipeapps.data.local.RecipeDao
+import com.halil.recipeapps.data.local.RecipeDatabase
 import com.halil.recipeapps.data.repository.AuthRepository
 import com.halil.recipeapps.data.repository.UserRepository
 import com.halil.recipeapps.network.ApiService
@@ -37,12 +43,13 @@ object AppModule {
     @Singleton
     fun provideUserRepository(
         firestore: FirebaseFirestore,
-        apiService: ApiService
+        apiService: ApiService,
+        recipeDao: RecipeDao
     ): UserRepository {
-        return UserRepository(firestore, apiService)
+        return UserRepository(firestore, apiService, recipeDao)
     }
 
-    @Provides  // Hilt'in bu fonksiyonu tanıması için @Provides anotasyonu eklenir
+    @Provides
     @Singleton
     fun provideApiService(): ApiService {
         return Retrofit.Builder()
@@ -50,5 +57,27 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRecipeDao(database: RecipeDatabase): RecipeDao {
+        return database.recipeDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRecipeDatabase(app: Application): RecipeDatabase {
+        return Room.databaseBuilder(app, RecipeDatabase::class.java, "recipe_database")
+            .addMigrations(MIGRATION_1_2)
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+    val MIGRATION_1_2 = object : Migration(1, 2) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            // Migration işlemleri burada yapılacak
+            // Örnek: database.execSQL("ALTER TABLE recipes ADD COLUMN new_column INTEGER DEFAULT 0 NOT NULL")
+        }
     }
 }

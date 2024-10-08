@@ -46,6 +46,7 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             MainNavigation()
+
         }
     }
 
@@ -57,11 +58,10 @@ class MainActivity : ComponentActivity() {
         val loginViewModel: LoginViewModel = viewModel()
 
         val drawerState = rememberDrawerState(DrawerValue.Closed)
-        val coroutineScope = rememberCoroutineScope()  // Coroutine scope oluşturuluyor.
+        val coroutineScope = rememberCoroutineScope()
 
         ModalNavigationDrawer(
             drawerContent = {
-                // UserViewModel ve LoginViewModel NavigationDrawerContent'e geçiriliyor.
                 NavigationDrawerContent(
                     navController = navController,
                     userViewModel = userViewModel,
@@ -77,7 +77,7 @@ class MainActivity : ComponentActivity() {
                         navigationIcon = {
                             IconButton(onClick = {
                                 coroutineScope.launch {
-                                    drawerState.open()  // Coroutine içinde suspend fonksiyonu çağrılıyor.
+                                    drawerState.open()
                                 }
                             }) {
                                 Icon(Icons.Default.Menu, contentDescription = "Open Drawer")
@@ -94,13 +94,14 @@ class MainActivity : ComponentActivity() {
                         HomeScreen(navController = navController, userViewModel = userViewModel)
                     }
                     composable("recipes") {
-                        RecipesScreen()
+                        RecipesScreen(userViewModel = userViewModel) // userViewModel'i burada geçin
                     }
                     composable("todolist") {
                         TodoListScreen(navController = navController, userViewModel = userViewModel)
                     }
                     composable("recipeDetail/{recipeId}") { backStackEntry ->
-                        val recipeId = backStackEntry.arguments?.getString("recipeId")?.toIntOrNull()
+                        val recipeId =
+                            backStackEntry.arguments?.getString("recipeId")?.toIntOrNull()
                         val recipe = userViewModel.recipes.value?.data?.find { it.id == recipeId }
                         RecipeDetailScreen(recipe = recipe)
                     }

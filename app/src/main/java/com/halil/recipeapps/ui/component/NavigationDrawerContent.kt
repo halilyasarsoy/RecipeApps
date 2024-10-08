@@ -35,7 +35,11 @@ import com.halil.recipeapps.ui.viewmodel.UserViewModel
 import com.halil.recipeapps.util.Resource
 
 @Composable
-fun NavigationDrawerContent(viewModel: LoginViewModel, userViewModel: UserViewModel, navController: NavHostController) {
+fun NavigationDrawerContent(
+    viewModel: LoginViewModel,
+    userViewModel: UserViewModel,
+    navController: NavHostController
+) {
     val userData by userViewModel.userData.collectAsState()
     val showLogoutDialog = remember { mutableStateOf(false) }
     val context = LocalContext.current
@@ -64,11 +68,9 @@ fun NavigationDrawerContent(viewModel: LoginViewModel, userViewModel: UserViewMo
             }
         )
     }
-
-    // Geri tuşunu devre dışı bırak
+    //back button disable
     BackHandler(enabled = true) {}
 
-    // Kullanıcı bilgilerini göster
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -81,24 +83,48 @@ fun NavigationDrawerContent(viewModel: LoginViewModel, userViewModel: UserViewMo
                 is Resource.Loading -> CircularProgressIndicator()
                 is Resource.Success -> {
                     (userData as Resource.Success<User>).data?.let { user ->
-                        Text("Name: ${user.name}", style = MaterialTheme.typography.bodyLarge, color = Color.White)
+                        Text(
+                            "Name: ${user.name}",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = Color.White
+                        )
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text("Surname: ${user.surname}", style = MaterialTheme.typography.bodyLarge, color = Color.White)
+                        Text(
+                            "Surname: ${user.surname}",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = Color.White
+                        )
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text("Age: ${user.age}", style = MaterialTheme.typography.bodyLarge, color = Color.White)
+                        Text(
+                            "Age: ${user.age}",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = Color.White
+                        )
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text("Email: ${user.email}", style = MaterialTheme.typography.bodyLarge, color = Color.White)
+                        Text(
+                            "Email: ${user.email}",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = Color.White
+                        )
                         Spacer(modifier = Modifier.height(16.dp))
                     }
                 }
-                is Resource.Error -> Text("Error: ${(userData as Resource.Error<User>).message}", color = Color.Red)
+
+                is Resource.Error -> Text(
+                    "Error: ${(userData as Resource.Error<User>).message}",
+                    color = Color.Red
+                )
+
                 null -> Text("No user data available")
             }
             Divider(color = Color.White)
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = { showLogoutDialog.value = true },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Gray, contentColor = Color.White)
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Gray,
+                    contentColor = Color.White
+                )
             ) {
                 Text("Logout")
             }
