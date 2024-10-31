@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.halil.recipeapps.data.model.Recipe // Recipe sınıfını import edin
+import com.halil.recipeapps.data.model.Recipe
 
 @Dao
 interface RecipeDao {

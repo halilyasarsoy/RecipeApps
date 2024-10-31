@@ -11,8 +11,8 @@ import com.halil.recipeapps.network.ApiService
 import com.halil.recipeapps.util.Resource
 import kotlinx.coroutines.tasks.await
 
-class UserRepository(
-    private val firestore: FirebaseFirestore,
+open class UserRepository(
+    private val firestore: FirebaseFirestore?,
     private val apiService: ApiService,
     private val recipeDao: RecipeDao
 ) {
@@ -20,8 +20,8 @@ class UserRepository(
     suspend fun getUserData(userId: String): Resource<User> {
         return try {
             if (userId.isNotEmpty()) {
-                val document = firestore.collection("users").document(userId).get().await()
-                val user = document.toObject(User::class.java)
+                val document = firestore?.collection("users")?.document(userId)?.get()?.await()
+                val user = document?.toObject(User::class.java)
                 if (user != null) {
                     Resource.Success(user)
                 } else {
@@ -35,26 +35,26 @@ class UserRepository(
         }
     }
 
-    suspend fun fetchRecipes(): List<Recipe> {
+    open suspend fun fetchRecipes(): List<Recipe> {
         return apiService.getRecipes()
     }
 
     fun addFavoriteRecipeToUser(recipeId: String) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        val userDoc = firestore.collection("users").document(userId)
-        userDoc.update("favoriteRecipes", FieldValue.arrayUnion(recipeId))
+        val userDoc = firestore?.collection("users")?.document(userId)
+        userDoc?.update("favoriteRecipes", FieldValue.arrayUnion(recipeId))
     }
 
     fun removeFavoriteRecipeFromUser(recipeId: String) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        val userDoc = firestore.collection("users").document(userId)
-        userDoc.update("favoriteRecipes", FieldValue.arrayRemove(recipeId))
+        val userDoc = firestore?.collection("users")?.document(userId)
+        userDoc?.update("favoriteRecipes", FieldValue.arrayRemove(recipeId))
     }
 
 
     suspend fun fetchFavoriteRecipes(userId: String): List<String> {
-        val userDoc = firestore.collection("users").document(userId).get().await()
-        if (!userDoc.exists()) {
+        val userDoc = firestore?.collection("users")?.document(userId)?.get()?.await()
+        if (!userDoc?.exists()!!) {
             Log.d("UserRepository", "User document does not exist")
             return emptyList()
         }

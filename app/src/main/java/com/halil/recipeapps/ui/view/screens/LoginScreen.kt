@@ -44,7 +44,7 @@ fun LoginScreen(viewModel: LoginViewModel, onNavigateToRegister: () -> Unit,onNa
     val loginState by viewModel.loginState.collectAsState()
 
     Box(modifier = Modifier.fillMaxSize()) {
-        // Background image
+
         Image(
             painter = painterResource(id = R.drawable.recipe_background_img),
             contentDescription = null,

@@ -16,10 +16,13 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.halil.recipeapps.R
 import com.halil.recipeapps.data.model.Recipe
 import com.halil.recipeapps.ui.viewmodel.UserViewModel
 
@@ -28,26 +31,41 @@ fun RecipeItem(
     recipe: Recipe,
     onClick: () -> Unit,
     userViewModel: UserViewModel,
-    onFavoriteClick: (Boolean) -> Unit
+    onFavoriteClick: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
+        modifier = modifier
+            .padding(4.dp)
             .clickable(onClick = onClick),
-        elevation = CardDefaults.cardElevation(4.dp)
+        elevation = CardDefaults.cardElevation(2.dp)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = recipe.name, style = MaterialTheme.typography.bodySmall)
+        Column(modifier = Modifier.padding(8.dp)) {
+            Text(
+                text = recipe.name,
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(bottom = 4.dp)
+            )
+
+            val imagePainter = if (recipe.image_url == "drawable/logo_recipe") {
+                painterResource(id = R.drawable.logo_recipe)
+            } else {
+                rememberAsyncImagePainter(recipe.image_url)
+            }
+
             Image(
-                painter = rememberAsyncImagePainter(recipe.image_url),
+                painter = imagePainter,
                 contentDescription = recipe.name,
                 modifier = Modifier
-                    .height(200.dp)
+                    .height(180.dp)
                     .fillMaxWidth(),
                 contentScale = ContentScale.Crop
             )
-            IconButton(onClick = { onFavoriteClick(!recipe.isFavorite) }) {
+
+            IconButton(
+                onClick = { onFavoriteClick(!recipe.isFavorite) },
+                modifier = Modifier.align(Alignment.End)
+            ) {
                 Icon(
                     imageVector = if (recipe.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                     contentDescription = "Toggle Favorite"
@@ -56,3 +74,4 @@ fun RecipeItem(
         }
     }
 }
+

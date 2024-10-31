@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class UserViewModel @Inject constructor(
+open class UserViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val recipeDao: RecipeDao
 ) : ViewModel() {
@@ -26,12 +26,12 @@ class UserViewModel @Inject constructor(
     val userData: StateFlow<Resource<User>?> = _userData
 
     private val _recipes = MutableStateFlow<Resource<List<Recipe>>?>(null)
-    val recipes: StateFlow<Resource<List<Recipe>>?> = _recipes
+    open val recipes: StateFlow<Resource<List<Recipe>>?> = _recipes
 
     private val _favoriteRecipes = MutableStateFlow<List<Recipe>>(emptyList())
     val favoriteRecipes: StateFlow<List<Recipe>> = _favoriteRecipes
 
-    private var userId: String? = null
+    var userId: String? = null
 
     fun fetchUserData(userId: String) {
         this.userId = userId

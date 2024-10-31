@@ -78,11 +78,11 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
 
-    implementation ("androidx.navigation:navigation-compose:2.7.7")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
 
     //retrofit
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
@@ -102,7 +102,8 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
 
-
+    debugImplementation("androidx.compose.ui:ui-tooling:1.7.4")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.7.4")
 }
 kapt {
     correctErrorTypes = true

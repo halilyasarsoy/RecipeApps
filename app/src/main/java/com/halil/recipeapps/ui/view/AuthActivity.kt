@@ -49,6 +49,6 @@ class AuthActivity : ComponentActivity() {
     private fun navigateToMain() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
-        finish() // AuthActivity bitirilir, böylece geri tuşuna basıldığında buraya dönülmez
+        finish()
     }
 }
