@@ -15,15 +15,15 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(
-    private val repository: AuthRepository
+open class LoginViewModel @Inject constructor(
+    open val repository: AuthRepository
 ) : ViewModel() {
 
-    private val _loginState = MutableStateFlow<Resource<FirebaseAuth>?>(null)
-    val loginState: StateFlow<Resource<FirebaseAuth>?> = _loginState
+    val _loginState = MutableStateFlow<Resource<FirebaseAuth?>>(Resource.Success(null))
+    open val loginState: StateFlow<Resource<FirebaseAuth?>> = _loginState
 
-    private val _registerState = MutableStateFlow<Resource<FirebaseAuth>?>(null)
-    val registerState: StateFlow<Resource<FirebaseAuth>?> = _registerState
+    val _registerState = MutableStateFlow<Resource<FirebaseAuth?>?>(null)
+    val registerState: StateFlow<Resource<FirebaseAuth?>?> = _registerState.asStateFlow()
 
     private val _isLoggedIn = MutableStateFlow(false)
     val isLoggedIn: StateFlow<Boolean> = _isLoggedIn
@@ -31,23 +31,29 @@ class LoginViewModel @Inject constructor(
     private val _user = MutableStateFlow<User?>(null)
     val user: StateFlow<User?> = _user.asStateFlow()
 
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    fun isUserLoggedIn(): Boolean {
-        return auth.currentUser != null
+    init {
+
+        _isLoggedIn.value = isUserLoggedIn()
     }
-    fun login(email: String, password: String) {
-        viewModelScope.launch {
-            _loginState.value = Resource.Loading()
-            val result = repository.login(email, password)
-            _loginState.value = result
-            if (result is Resource.Success) {
-                _isLoggedIn.value = true
+    open fun isUserLoggedIn(): Boolean {
+        return FirebaseAuth.getInstance().currentUser != null
+    }
+    open fun login(email: String, password: String) {
+        if (_loginState.value !is Resource.Loading) {
+            viewModelScope.launch {
+                _loginState.value = Resource.Loading()
+                val result = repository.login(email, password)
+                _loginState.value = result
+                if (result is Resource.Success) {
+                    _isLoggedIn.value = true
+                }
             }
         }
     }
 
+
     fun register(name: String, surname: String, age: Int, email: String, password: String) {
-        val user = User(name, surname, age, email) // Assuming User class exists with these parameters
+        val user = User(name, surname, age, email)
         viewModelScope.launch {
             _registerState.value = Resource.Loading()
             val result = repository.register(email, password, user)
@@ -57,7 +63,6 @@ class LoginViewModel @Inject constructor(
             }
         }
     }
-
     private val _logoutStatus = MutableStateFlow(false)
     val logoutStatus: StateFlow<Boolean> = _logoutStatus
 
@@ -65,6 +70,16 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             repository.logout()
             _logoutStatus.value = true
+        }
+    }
+
+    private val _resetPasswordState = MutableStateFlow<Resource<Unit>?>(null)
+    val resetPasswordState: StateFlow<Resource<Unit>?> = _resetPasswordState
+    fun resetPassword(email: String) {
+        viewModelScope.launch {
+            _resetPasswordState.value = Resource.Loading()
+            val result = repository.resetPassword(email)
+            _resetPasswordState.value = result
         }
     }
 }

@@ -104,6 +104,9 @@ dependencies {
 
     debugImplementation("androidx.compose.ui:ui-tooling:1.7.4")
     implementation("androidx.compose.ui:ui-tooling-preview:1.7.4")
+
+    implementation ("androidx.compose.material:material-icons-extended:1.7.5")
+
 }
 kapt {
     correctErrorTypes = true

@@ -9,6 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.halil.recipeapps.data.local.RecipeDao
 import com.halil.recipeapps.data.local.RecipeDatabase
 import com.halil.recipeapps.data.repository.AuthRepository
+import com.halil.recipeapps.data.repository.AuthRepositoryImpl
 import com.halil.recipeapps.data.repository.UserRepository
 import com.halil.recipeapps.network.ApiService
 import dagger.Module
@@ -31,13 +32,14 @@ object AppModule {
     @Singleton
     fun provideFirestore(): FirebaseFirestore = FirebaseFirestore.getInstance()
 
+
     @Provides
     @Singleton
     fun provideAuthRepository(
         firebaseAuth: FirebaseAuth,
         firestore: FirebaseFirestore
     ): AuthRepository =
-        AuthRepository(firebaseAuth, firestore)
+        AuthRepositoryImpl(firebaseAuth, firestore)
 
     @Provides
     @Singleton
